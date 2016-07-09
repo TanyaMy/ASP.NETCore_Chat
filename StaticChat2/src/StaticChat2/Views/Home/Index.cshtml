@@ -1,0 +1,71 @@
+﻿@using StaticChat.Models
+@model  IndexViewModel    
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="~/lib/bootstrap/dist/css/bootstrap.min.css">
+    </head>
+    <body>
+        <br/><br/>
+        <h1>Chat</h1>
+        <br/>
+@foreach (Message m in Model.Messages)
+{
+    <div class="row">
+        <div class="col-md-2" >
+            <div class="well">
+                From: <strong>@m.Sign</strong>
+            </div>
+        </div>
+        <div class="col-md-offset-2 ">
+            <div class="well">
+                <div class="text-primary"><strong>@m.Text</strong></div> 
+            </div>
+            @if (m.Comments.Count > 0)
+            {
+                    <div class="text-primary">
+                        @foreach (Comment c in m.Comments)
+                        {<div class="glyphicon-alert">@c.Text</div>}
+                    </div>               
+            }
+   
+            
+                @using (Html.BeginForm("Index", "Comment", FormMethod.Post))
+                {
+                    <form method="post">
+                        <table class="table" width="100">
+                            <tr>
+                                <td width="300"><textarea type="text" name="text" cols="10" rows="2" class="form-control" placeholder="Your comment" maxlength="90"></textarea>
+                                <input type="hidden" name="" value="" >
+                                </td>
+                                <td><input type="submit" value="Send" class="btn btn-info" /></td>
+                            </tr>
+                        </table>
+                    </form>
+                }
+
+            <br/>  
+        </div>
+        
+
+</div>
+}
+        <br /><br />
+        <form method="post">
+                    <input asp-for="Sign" class="form-control" placeholder="Sign" maxlength="10"/>
+            <br />
+                    <textarea type="text" name="text" cols ="10" rows="10" class="form-control" placeholder="Your message" maxlength="90"></textarea>
+            <br />
+                      <input type="submit" value="Send" class="btn btn-success" />
+        </form>
+</body>
+</html>
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+        window.scrollTo(0, document.body.scrollHeight);
+    });
+</script>
